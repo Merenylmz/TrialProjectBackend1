@@ -42,7 +42,7 @@ trait CommonRepositoryTrait
 
     public function create(array $data, $modelName) {
         try {
-            Cache::has($modelName) ?? Cache::pull($modelName);
+            Cache::has($modelName) && Cache::forget($modelName);
 
             return $this->model->create($data);
         } catch (\Throwable $th) {
@@ -52,7 +52,7 @@ trait CommonRepositoryTrait
 
     public function delete($id, $modelName){
         try {
-            Cache::has($modelName) ?? Cache::pull($modelName);
+            Cache::has($modelName) && Cache::forget($modelName);
             
             return $this->model->destroy($id);
         } catch (\Throwable $th) {
