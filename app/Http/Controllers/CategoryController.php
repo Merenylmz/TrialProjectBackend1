@@ -51,4 +51,14 @@ class CategoryController extends Controller
             throw $th;
         }
     }
+
+    public function getCategoryWithBlogs($id){
+        try {
+            $categories = $this->categoryRepository->categoryWithBlogs($id);
+
+            return response()->json($categories);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 }

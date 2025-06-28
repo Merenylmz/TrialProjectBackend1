@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Interfaces\IBlogRepository;
+use App\Interfaces\ICategoryRepository;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
 
     protected $blogRepository;
+    protected $categoryRepository;
 
-    public function __construct(IBlogRepository $blogRepository) {
+    public function __construct(IBlogRepository $blogRepository, ICategoryRepository $categoryRepository) {
         $this->blogRepository = $blogRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     public function getAllBlogs(){
@@ -37,6 +41,18 @@ class BlogController extends Controller
     public function addBlog(Request $req){
         try {
             $status = $this->blogRepository->create($req->all(), "blogs");
+            $category = $this->categoryRepository->getById($status->categoryId);
+
+            $categoryBlogs = $category->blogs;
+            $categoryBlogs[] = $status->id;
+            $category->blogs = $categoryBlogs;
+            $category->save();
+
+            $user = User::find($status->userId);
+            $blogs = $user->blogs;
+            $blogs[] = $status->id;
+            $user->blogs = $blogs;
+            $user->save();
 
             return response()->json($status);
         } catch (\Throwable $th) {

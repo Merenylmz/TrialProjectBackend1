@@ -23,6 +23,7 @@ Route::prefix("/blogs")->group(function(){
 });
 
 Route::prefix("/categories")->group(function(){
+    Route::get("/withblogs/{id}", [CategoryController::class, "getCategoryWithBlogs"]);
     Route::get("/", [CategoryController::class, "getAllCategories"]);
     Route::get("/{id}", [CategoryController::class, "getCategoryById"]);
     Route::post("/create", [CategoryController::class, "addCategory"])->middleware(IsValidToken::class);

@@ -51,7 +51,12 @@ class AuthController extends Controller
             $user->remember_token = $token;
             $user->save();
 
-            return response()->json(["status"=>true, "token"=>$token]);
+            $userDetails = [
+                "name"=>$user->name,
+                "email"=>$user->email,
+            ] ;
+
+            return response()->json(["status"=>true, "token"=>$token, "user"=>$userDetails]);
         } catch (\Throwable $th) {
             throw $th;
         }

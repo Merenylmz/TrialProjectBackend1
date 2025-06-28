@@ -13,5 +13,9 @@ class Blogs extends Model
         "userId",
     ];
 
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
+
     
 }

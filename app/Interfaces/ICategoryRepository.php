@@ -7,4 +7,6 @@ use App\Interfaces\Common\ICommonRepository;
 interface ICategoryRepository extends ICommonRepository
 {
     //
+
+    public function categoryWithBlogs($id);
 }

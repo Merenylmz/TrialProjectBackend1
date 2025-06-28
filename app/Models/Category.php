@@ -14,4 +14,12 @@ class Category extends Model
         "title",
     ];
 
+    protected $casts = [
+        'blogs' => 'array', // bu olmazsa hep string gelir
+    ];
+
+    public function blogs(){
+        return $this->hasMany(Blogs::class, "categoryId");
+    }
+
 }
