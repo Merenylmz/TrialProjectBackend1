@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->text("profilePhoto")->nullable();
             $table->json("blogs")->nullable();
             $table->text("remember_token")->nullable();
             $table->text("forgotpasstoken")->default("")->nullable();

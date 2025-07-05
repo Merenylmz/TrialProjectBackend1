@@ -25,6 +25,15 @@ class AuthController extends Controller
             $newUser->name = $req->input("name");
             $newUser->email = $req->input("email");
             $newUser->password = Hash::make($req->input("password"));
+
+            if ($req->hasFile("profilePhoto")) {
+                $image = $req->file("profilePhoto");
+                $fileName = time()."_".$newUser->name."_".$image->getClientOriginalName();
+                $path = $image->storeAs("profile_photos", $fileName, "public");
+                $imageUrl = asset("storage/". $path);
+                $newUser->profilePhoto = $imageUrl;
+            }
+
             $newUser->save();
 
             WelcomeMailJob::dispatch($newUser);
@@ -54,7 +63,8 @@ class AuthController extends Controller
             $userDetails = [
                 "name"=>$user->name,
                 "email"=>$user->email,
-            ] ;
+                "profilePhoto"=>$user->profilePhoto
+            ];
 
             return response()->json(["status"=>true, "token"=>$token, "user"=>$userDetails]);
         } catch (\Throwable $th) {
@@ -99,6 +109,31 @@ class AuthController extends Controller
             Cache::has("forgotPassToken:".$user->id) ?? Cache::pull("forgotPassToken:".$user->id);
 
             return response()->json(["status"=>true, "msg"=>"The Password changed successfully"]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function editProfile(Request $req){
+        try {
+            $user = User::where("email", $req->input("email"))->first();
+            if (!$user) {
+                return response()->json(["status"=>"Error", "msg"=>"User is not found"]);
+            }
+
+            $user->name = $req->input("name");
+            $user->email = $req->input("email");
+            $user->password = $req->input("password") ? Hash::make($req->input("password")) : $user->password;
+            if ($req->hasFile("profilePhoto")) {
+                $image = $req->file("profilePhoto");
+                $fileName = time()."_".$user->name."_".$image->getClientOriginalName();
+                $path = $image->storeAs("profile_photos", $fileName, "public");
+                $imageUrl = asset("storage/". $path);
+                $user->profilePhoto = $imageUrl;
+            }
+            $user->save();
+
+            return response()->json(["status"=>true, $user]);
         } catch (\Throwable $th) {
             throw $th;
         }
