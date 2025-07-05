@@ -35,6 +35,6 @@ Route::prefix("/auth")->group(function(){
     Route::post("/login", [AuthController::class, "login"]);
     Route::post("/forgotpassword", [AuthController::class, "forgotPassword"]);
     Route::post("/newpassword", [AuthController::class, "newPassword"]);
-    Route::put("/editprofile", [AuthController::class, "editProfile"]);
+    Route::post("/editprofile", [AuthController::class, "editProfile"]);
 });
 

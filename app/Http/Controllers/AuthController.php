@@ -18,7 +18,7 @@ class AuthController extends Controller
         try {
             $user = User::where("email", $req->input("email"))->first();
             if ($user) {
-                return response()->json(["status"=>"Error", "msg"=>"User is already exists"]);
+                return response()->json(["status"=>false, "msg"=>"User is already exists"]);
             }
 
             $newUser = new User();
@@ -48,7 +48,7 @@ class AuthController extends Controller
         try {
             $user = User::where("email", $req->input("email"))->first();
             if (!$user) {
-                return response()->json(["status"=>"Error", "msg"=>"User is not found"]);
+                return response()->json(["status"=>false, "msg"=>"User is not found"]);
             }
 
             if (!Hash::check($req->input("password"), $user->password)) {
@@ -118,7 +118,7 @@ class AuthController extends Controller
         try {
             $user = User::where("email", $req->input("email"))->first();
             if (!$user) {
-                return response()->json(["status"=>"Error", "msg"=>"User is not found"]);
+                return response()->json(["status"=>false, "msg"=>"User is not found"]);
             }
 
             $user->name = $req->input("name");
@@ -133,7 +133,7 @@ class AuthController extends Controller
             }
             $user->save();
 
-            return response()->json(["status"=>true, $user]);
+            return response()->json(["status"=>true, "user"=>$user]);
         } catch (\Throwable $th) {
             throw $th;
         }

@@ -26,5 +26,5 @@ Schedule::call(function(){
 
     DailyReportJob::dispatch($informationArray);
 
-})->everyMinute();
+})->daily();
 
