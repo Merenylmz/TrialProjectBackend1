@@ -64,7 +64,7 @@ class BlogController extends Controller
         try {
             $status = $this->blogRepository->delete($id, "blogs");
 
-            return response()->json($status);
+            return response()->json(["status"=>true, "id"=>$status]);
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -74,7 +74,17 @@ class BlogController extends Controller
         try {
             $status = $this->blogRepository->edit($req->all(), $id);
 
-            return response()->json($status);
+            return response()->json(["status"=>true, $status]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function getBlogByUserId($id){//User ID
+        try {
+            $blogs = $this->blogRepository->getBlogByUserId($id);
+            
+            return response()->json($blogs);
         } catch (\Throwable $th) {
             throw $th;
         }

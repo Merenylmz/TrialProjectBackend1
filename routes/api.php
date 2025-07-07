@@ -19,7 +19,8 @@ Route::prefix("/blogs")->group(function(){
     Route::get("/{id}", [BlogController::class, "getBlogById"]);
     Route::post("/create",[BlogController::class, "addBlog"])->middleware(IsValidToken::class);
     Route::delete("/delete/{id}", [BlogController::class, "deleteBlog"])->middleware(IsValidToken::class);
-    Route::put("/edit/{id}", [BlogController::class, "editBlog"])->middleware(IsValidToken::class);
+    Route::post("/edit/{id}", [BlogController::class, "editBlog"])->middleware(IsValidToken::class);
+    Route::get("/user/{id}", [BlogController::class, "getBlogByUserId"]);
 });
 
 Route::prefix("/categories")->group(function(){

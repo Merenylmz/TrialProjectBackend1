@@ -61,6 +61,7 @@ class AuthController extends Controller
             $user->save();
 
             $userDetails = [
+                "id"=>$user->id,
                 "name"=>$user->name,
                 "email"=>$user->email,
                 "profilePhoto"=>$user->profilePhoto

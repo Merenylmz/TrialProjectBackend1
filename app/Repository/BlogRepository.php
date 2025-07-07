@@ -9,10 +9,16 @@ class BlogRepository implements IBlogRepository
 {
     use Common\CommonRepositoryTrait;
 
-    private $blog;
+    protected $blog;
     public function __construct(Blogs $blog)
     {
         $this->blog = $blog;
         $this->model = $this->blog;
+    }
+
+    public function getBlogByUserId($id){
+        $blogs = $this->blog->where("userId", $id)->get();
+
+        return $blogs;
     }
 }
