@@ -7,6 +7,6 @@
 </head>
 <body>
     <h1>Forgot Password</h1>
-    <a href={{"http://localhost:8000/api/auth/newPassword?passtoken=".$data["passToken"]}}>Şifreyi Değiştir</a>
+    <a href={{"http://localhost:3000/auth/newpassword/".$data["passToken"]}}>Şifreyi Değiştir</a>
 </body>
 </html>
