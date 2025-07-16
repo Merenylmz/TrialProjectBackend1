@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\LoginResource;
 use App\Jobs\ForgotPasswordJob;
 use App\Jobs\WelcomeMailJob;
 use App\Mail\WelcomeMail;
@@ -67,7 +68,7 @@ class AuthController extends Controller
                 "profilePhoto"=>$user->profilePhoto
             ];
 
-            return response()->json(["status"=>true, "token"=>$token, "user"=>$userDetails]);
+            return (new LoginResource($userDetails))->additional(["token"=>$token]);
         } catch (\Throwable $th) {
             throw $th;
         }

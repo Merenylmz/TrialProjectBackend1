@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign("categoryId")->references("id")->on("categories");
             $table->unsignedBigInteger("userId");
             $table->foreign("userId")->references("id")->on("users");
+            $table->integer("views")->default(0);
             $table->timestamps();
         });
     }
